@@ -26,7 +26,96 @@
   
   
   </dependencies>
-  
+  	<!-- Common place for all SRIMS project to define their plugins -->
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>3.0.0</version>
+					<configuration>
+						<configLocation>${basedir}/orsrims-checkstyle.xml</configLocation>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>3.12.0</version>
+					<configuration>
+						<rulesets>
+							<ruleset>${basedir}/orsrims-pmd-ruleset.xml</ruleset>
+						</rulesets>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.0</version>
+					<configuration>
+						<useSystemClassLoader>true</useSystemClassLoader>
+						<argLine>@{jacocoArgLine}
+							-javaagent:${settings.localRepository}/org/powermock/powermock-module-javaagent/${powermock.version}/powermock-module-javaagent-${powermock.version}.jar
+							-noverify -Xmx1024m
+						</argLine>
+						<trimStackTrace>false</trimStackTrace>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.4</version>
+					<configuration>
+						<destFile>${basedir}/target/coverage-reports/jacoco.exec</destFile>
+						<dataFile>${basedir}/target/coverage-reports/jacoco.exec</dataFile>
+					</configuration>
+					<executions>
+						<execution>
+							<id>test-coverage</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<phase>process-test-classes</phase>
+							<configuration>
+								<propertyName>jacocoArgLine</propertyName>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
   
    
 </project>
