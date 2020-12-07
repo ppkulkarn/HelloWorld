@@ -23,14 +23,14 @@
     <version>4.13.1</version>
     <scope>test</scope>
 </dependency>
-  
+  <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.7-SNAPSHOT</version>
+</dependency>
   
   </dependencies>
   
   
-   <plugin>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.7-SNAPSHOT</version>
-</plugin>
+   
 </project>
